@@ -16,21 +16,40 @@ public final class SQLProvider {
 
     private final Plugin plugin;
 
-    public SQLConnector setup(String forceType) {
+    public SQLConnector setup() {
         val configuration = plugin.getConfig();
         val databaseConfiguration = configuration.getConfigurationSection("database");
+        if (databaseConfiguration == null) {
+            plugin.getLogger().info("Database section in config is null.");
+            return null;
+        }
 
-        val sqlType = forceType != null ? forceType : databaseConfiguration.getString("type");
+        val sqlType = databaseConfiguration.getString("type", "");
+        if (sqlType.equalsIgnoreCase("")) {
+            plugin.getLogger().info("Database type in config is null.");
+            return null;
+        }
+
         val logger = plugin.getLogger();
 
         SQLConnector sqlConnector;
         if (sqlType.equalsIgnoreCase("mysql")) {
             ConfigurationSection mysqlSection = databaseConfiguration.getConfigurationSection("mysql");
+            if (mysqlSection == null) {
+                plugin.getLogger().info("MySQL database section in config is null.");
+                return null;
+            }
+
             sqlConnector = mysqlDatabaseType(mysqlSection).connect();
 
             logger.info("Conection with the data bank (MySQL) successfully.");
         } else if (sqlType.equalsIgnoreCase("sqlite")) {
             ConfigurationSection sqliteSection = databaseConfiguration.getConfigurationSection("sqlite");
+            if (sqliteSection == null) {
+                plugin.getLogger().info("SQLite database section in config is null.");
+                return null;
+            }
+
             sqlConnector = sqliteDatabaseType(sqliteSection).connect();
 
             logger.info("Conection with the data bank (SQLite) successfully.");
@@ -45,7 +64,7 @@ public final class SQLProvider {
 
     private SQLDatabaseType sqliteDatabaseType(ConfigurationSection section) {
         return SQLiteDatabaseType.builder()
-                .file(new File(plugin.getDataFolder(), section.getString("file")))
+                .file(new File(plugin.getDataFolder(), section.getString("file", "database/database.db")))
                 .build();
     }
 

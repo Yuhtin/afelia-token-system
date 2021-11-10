@@ -20,8 +20,10 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
+    compileOnly 'com.github.PlaceholderAPI:PlaceholderAPI:2.10.9'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
 
+    implementation 'com.github.HenryFabio.configuration-injector:bukkit:1.0.2'
     implementation 'com.github.Yuhtin:inventory-api:a462713df0'
     implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
     implementation 'com.github.HenryFabio:sql-provider:9561f20fd2'
@@ -37,11 +39,6 @@ bukkit {
     version = "${project.version}"
     depend = ['Vault']
     apiVersion = '1.13'
-    commands {
-        tokenshop {
-            aliases = ['tokensshop', 'ts']
-        }
-    }
 }
 
 shadowJar {

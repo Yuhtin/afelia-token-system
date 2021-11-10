@@ -7,18 +7,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public final class AccountRepository {
 
     private static final String TABLE = "afeliatoken_data";
-
-    @Getter
-    private final SQLExecutor sqlExecutor;
+    @Getter private final SQLExecutor sqlExecutor;
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "owner CHAR(36) NOT NULL PRIMARY KEY," +
+                "uuid CHAR(36) NOT NULL PRIMARY KEY," +
                 "balance DOUBLE NOT NULL DEFAULT 0" +
                 ");"
         );
@@ -38,8 +37,8 @@ public final class AccountRepository {
         );
     }
 
-    public Account selectOne(String owner) {
-        return selectOneQuery("WHERE owner = '" + owner + "'");
+    public Account selectOne(UUID uuid) {
+        return selectOneQuery("WHERE uuid = '" + uuid.toString() + "'");
     }
 
     public Set<Account> selectAll(String query) {
@@ -53,10 +52,10 @@ public final class AccountRepository {
 
     public void saveOne(Account account) {
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?,?,?,?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?)", TABLE),
                 statement -> {
-                    statement.set(1, account.getOwner());
-                    statement.set(2, account.getAfelia());
+                    statement.set(1, account.getUuid().toString());
+                    statement.set(2, account.getBalance());
                 }
         );
     }
