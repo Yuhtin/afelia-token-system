@@ -74,7 +74,7 @@ public class AfeliaCommand {
     }
 
     @Command(
-            name = "coins.send",
+            name = "afelia.send",
             aliases = {"pay"},
             usage = "/afelia send {player} {quantity}",
             description = "Send afelia to player",
