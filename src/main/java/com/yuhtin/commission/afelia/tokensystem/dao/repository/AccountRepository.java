@@ -5,6 +5,7 @@ import com.yuhtin.commission.afelia.tokensystem.api.account.Account;
 import com.yuhtin.commission.afelia.tokensystem.dao.repository.adapter.AccountAdapter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.UUID;
@@ -37,6 +38,7 @@ public final class AccountRepository {
         );
     }
 
+    @Nullable
     public Account selectOne(UUID uuid) {
         return selectOneQuery("WHERE uuid = '" + uuid.toString() + "'");
     }

@@ -30,7 +30,11 @@ public class AccountStorage {
     @Nullable
     public Account findAccountByUUID(@NotNull UUID uuid) {
         if (cache.containsKey(uuid)) return cache.get(uuid);
-        return accountRepository.selectOne(uuid);
+
+        val account = accountRepository.selectOne(uuid);
+        if (account != null) cache.put(uuid, account);
+
+        return account;
     }
 
     @Nullable

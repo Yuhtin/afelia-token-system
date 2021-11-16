@@ -25,6 +25,10 @@ public final class MessageValue implements ConfigurationInjectable {
     @ConfigField("invalidPlayer") private String invalidPlayer;
     @ConfigField("invalidQuantity") private String invalidQuantity;
 
+    @ConfigField("set") private String set;
+    @ConfigField("add") private String add;
+    @ConfigField("take") private String take;
+
     @ConfigField("see") private String seeBalance;
     @ConfigField("see-other") private String seeOtherBalance;
 

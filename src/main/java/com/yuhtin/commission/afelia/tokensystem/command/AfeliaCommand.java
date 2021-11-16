@@ -15,7 +15,6 @@ import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor
@@ -98,6 +97,86 @@ public class AfeliaCommand {
 
         val transactionRequestEvent = new TransactionRequestEvent(player, target, offlineAccount, parse);
         Bukkit.getPluginManager().callEvent(transactionRequestEvent);
+    }
+
+    @Command(
+            name = "afelia.set",
+            usage = "/afelia set {player} {quantity}",
+            description = "Utilize para alterar a quantia de dinheiro de alguém.",
+            permission = "nexteconomy.command.set",
+            async = true
+    )
+    public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
+        val sender = context.getSender();
+        val parse = NumberUtils.parse(amount);
+
+        if (parse < 1) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidQuantity));
+            return;
+        }
+
+        val offlineAccount = accountStorage.findAccount(target);
+        if (offlineAccount == null) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidPlayer));
+            return;
+        }
+
+        offlineAccount.setBalance(parse);
+        sender.sendMessage(MessageValue.get(MessageValue::set).replace("", ""));
+    }
+
+    @Command(
+            name = "coins.add",
+            aliases = {"adicionar", "deposit", "depositar", "give"},
+            usage = "/coins give {jogador} {quantia} ",
+            description = "Utilize para adicionar uma quantia de dinheiro para alguém.",
+            permission = "nexteconomy.command.add",
+            async = true
+    )
+    public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
+        val sender = context.getSender();
+        val parse = NumberUtils.parse(amount);
+
+        if (parse < 1) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidQuantity));
+            return;
+        }
+
+        val offlineAccount = accountStorage.findAccount(target);
+        if (offlineAccount == null) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidPlayer));
+            return;
+        }
+
+        val moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
+        Bukkit.getPluginManager().callEvent(moneyGiveEvent);
+    }
+
+    @Command(
+            name = "coins.remove",
+            aliases = {"remover", "withdraw", "retirar", "take"},
+            usage = "/coins remover {jogador} {quantia}",
+            description = "Utilize para remover uma quantia de dinheiro de alguém.",
+            permission = "nexteconomy.command.remove",
+            async = true
+    )
+    public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
+        val sender = context.getSender();
+        val parse = NumberUtils.parse(amount);
+
+        if (parse < 1) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            return;
+        }
+
+        val offlineAccount = accountStorage.findAccount(target);
+        if (offlineAccount == null) {
+            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            return;
+        }
+
+        val moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target, parse);
+        Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
     }
 
     @Command(
