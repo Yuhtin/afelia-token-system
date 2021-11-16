@@ -1,6 +1,5 @@
 package com.yuhtin.commission.afelia.tokensystem.listener.update;
 
-import com.yuhtin.commission.afelia.tokensystem.AfeliaTokenSystem;
 import com.yuhtin.commission.afelia.tokensystem.api.account.Account;
 import com.yuhtin.commission.afelia.tokensystem.api.event.operations.AsyncAfeliaRankingUpdateEvent;
 import com.yuhtin.commission.afelia.tokensystem.api.ranking.RankingChatBody;
@@ -10,7 +9,6 @@ import com.yuhtin.commission.afelia.tokensystem.dao.repository.AccountRepository
 import com.yuhtin.commission.afelia.tokensystem.util.ColorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

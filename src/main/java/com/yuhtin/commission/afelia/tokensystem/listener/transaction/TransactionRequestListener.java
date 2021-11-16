@@ -2,7 +2,6 @@ package com.yuhtin.commission.afelia.tokensystem.listener.transaction;
 
 import com.yuhtin.commission.afelia.tokensystem.api.account.storage.AccountStorage;
 import com.yuhtin.commission.afelia.tokensystem.api.event.transaction.TransactionRequestEvent;
-import com.yuhtin.commission.afelia.tokensystem.configuration.FeatureValue;
 import com.yuhtin.commission.afelia.tokensystem.configuration.MessageValue;
 import com.yuhtin.commission.afelia.tokensystem.util.NumberUtils;
 import lombok.AllArgsConstructor;

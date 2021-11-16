@@ -17,7 +17,6 @@ import com.yuhtin.commission.afelia.tokensystem.placeholder.registry.Placeholder
 import lombok.Getter;
 import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
