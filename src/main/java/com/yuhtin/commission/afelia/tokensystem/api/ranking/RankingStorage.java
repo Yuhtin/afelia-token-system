@@ -4,6 +4,7 @@ import com.yuhtin.commission.afelia.tokensystem.AfeliaTokenSystem;
 import com.yuhtin.commission.afelia.tokensystem.api.account.Account;
 import com.yuhtin.commission.afelia.tokensystem.api.event.operations.AsyncAfeliaRankingUpdateEvent;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import org.bukkit.Bukkit;
 
@@ -14,11 +15,11 @@ import java.util.concurrent.TimeUnit;
 public class RankingStorage {
 
     private final LinkedList<Account> top = new LinkedList<>();
-    private String topPlayer;
+    @Setter private String topPlayer;
     private long nextUpdateMillis;
 
-    public boolean updateRanking(boolean force) {
-        if (!force && nextUpdateMillis > System.currentTimeMillis()) return false;
+    public void updateRanking(boolean force) {
+        if (!force && nextUpdateMillis > System.currentTimeMillis()) return;
 
         val plugin = AfeliaTokenSystem.getInstance();
         val pluginManager = Bukkit.getPluginManager();
@@ -34,7 +35,6 @@ public class RankingStorage {
             pluginManager.callEvent(event);
         });
 
-        return true;
     }
 
 }

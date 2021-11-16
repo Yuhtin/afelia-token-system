@@ -19,7 +19,8 @@ public final class AccountRepository {
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 "uuid CHAR(36) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL DEFAULT 0" +
+                "balance DOUBLE NOT NULL DEFAULT 0," +
+                "lastName CHAR(20) NOT NULL" +
                 ");"
         );
     }
@@ -54,10 +55,11 @@ public final class AccountRepository {
 
     public void saveOne(Account account) {
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?,?)", TABLE),
                 statement -> {
                     statement.set(1, account.getUuid().toString());
                     statement.set(2, account.getBalance());
+                    statement.set(3, account.getLastName());
                 }
         );
     }

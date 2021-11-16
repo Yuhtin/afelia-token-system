@@ -1,9 +1,10 @@
 package com.yuhtin.commission.afelia.tokensystem.api.ranking;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor
 public class RankingChatBody {
 

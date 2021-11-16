@@ -61,5 +61,6 @@ public class AccountStorage {
 
     public void flushData() {
         cache.values().forEach(accountRepository::saveOne);
+        cache.clear();
     }
 }

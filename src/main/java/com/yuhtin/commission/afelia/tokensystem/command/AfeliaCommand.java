@@ -6,6 +6,7 @@ import com.yuhtin.commission.afelia.tokensystem.api.event.transaction.Transactio
 import com.yuhtin.commission.afelia.tokensystem.configuration.MessageValue;
 import com.yuhtin.commission.afelia.tokensystem.util.ColorUtil;
 import com.yuhtin.commission.afelia.tokensystem.util.NumberUtils;
+import com.yuhtin.commission.afelia.tokensystem.view.BuyAfeliumView;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.saiintbrisson.minecraft.command.annotation.Command;
@@ -22,9 +23,10 @@ public class AfeliaCommand {
 
     private final AfeliaTokenSystem plugin;
     private final AccountStorage accountStorage;
+    private final BuyAfeliumView buyAfeliumView;
 
     @Command(
-            name = "afelia",
+            name = "afelium",
             aliases = {"afeliaeco"},
             description = "Afelia command",
             async = true
@@ -43,7 +45,7 @@ public class AfeliaCommand {
     }
 
     @Command(
-            name = "afelia.see",
+            name = "afelium.see",
             description = "See afelia",
             async = true
     )
@@ -73,9 +75,9 @@ public class AfeliaCommand {
     }
 
     @Command(
-            name = "afelia.send",
+            name = "afelium.send",
             aliases = {"pay"},
-            usage = "/afelia send {player} {quantity}",
+            usage = "/afelium send {player} {quantity}",
             description = "Send afelia to player",
             target = CommandTarget.PLAYER,
             async = true
@@ -100,10 +102,10 @@ public class AfeliaCommand {
     }
 
     @Command(
-            name = "afelia.set",
-            usage = "/afelia set {player} {quantity}",
-            description = "Utilize para alterar a quantia de dinheiro de alguém.",
-            permission = "nexteconomy.command.set",
+            name = "afelium.set",
+            usage = "/afelium set {player} {quantity}",
+            description = "Set afelia to player.",
+            permission = "afeliatoken.command.set",
             async = true
     )
     public void moneySetCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
@@ -122,15 +124,17 @@ public class AfeliaCommand {
         }
 
         offlineAccount.setBalance(parse);
-        sender.sendMessage(MessageValue.get(MessageValue::set).replace("", ""));
+        sender.sendMessage(MessageValue.get(MessageValue::set)
+                .replace("$player", target.getName())
+                .replace("$amount", NumberUtils.format(parse))
+        );
     }
 
     @Command(
-            name = "coins.add",
-            aliases = {"adicionar", "deposit", "depositar", "give"},
-            usage = "/coins give {jogador} {quantia} ",
-            description = "Utilize para adicionar uma quantia de dinheiro para alguém.",
-            permission = "nexteconomy.command.add",
+            name = "afelium.add",
+            usage = "/afelium add {player} {quantity} ",
+            description = "Add afelia to player.",
+            permission = "afeliatoken.command.add",
             async = true
     )
     public void moneyAddCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
@@ -148,16 +152,18 @@ public class AfeliaCommand {
             return;
         }
 
-        val moneyGiveEvent = new MoneyGiveEvent(sender, target, parse);
-        Bukkit.getPluginManager().callEvent(moneyGiveEvent);
+        offlineAccount.setBalance(offlineAccount.getBalance() + parse);
+        sender.sendMessage(MessageValue.get(MessageValue::add)
+                .replace("$player", target.getName())
+                .replace("$amount", NumberUtils.format(parse))
+        );
     }
 
     @Command(
-            name = "coins.remove",
-            aliases = {"remover", "withdraw", "retirar", "take"},
-            usage = "/coins remover {jogador} {quantia}",
-            description = "Utilize para remover uma quantia de dinheiro de alguém.",
-            permission = "nexteconomy.command.remove",
+            name = "afelium.take",
+            usage = "/afelium take {player} {quantity}",
+            description = "Take afelia from player.",
+            permission = "afeliatoken.command.take",
             async = true
     )
     public void moneyRemoveCommand(Context<CommandSender> context, OfflinePlayer target, String amount) {
@@ -165,23 +171,54 @@ public class AfeliaCommand {
         val parse = NumberUtils.parse(amount);
 
         if (parse < 1) {
-            sender.sendMessage(MessageValue.get(MessageValue::invalidMoney));
+            sender.sendMessage(MessageValue.get(MessageValue::invalidQuantity));
             return;
         }
 
         val offlineAccount = accountStorage.findAccount(target);
         if (offlineAccount == null) {
-            sender.sendMessage(MessageValue.get(MessageValue::invalidTarget));
+            sender.sendMessage(MessageValue.get(MessageValue::invalidPlayer));
             return;
         }
 
-        val moneyWithdrawEvent = new MoneyWithdrawEvent(sender, target, parse);
-        Bukkit.getPluginManager().callEvent(moneyWithdrawEvent);
+        offlineAccount.setBalance(offlineAccount.getBalance() - parse);
+        sender.sendMessage(MessageValue.get(MessageValue::take)
+                .replace("$player", target.getName())
+                .replace("$amount", NumberUtils.format(parse))
+        );
     }
 
     @Command(
-            name = "afelia.help",
-            description = "Afelia system help message.",
+            name = "afelium.top",
+            async = true
+    )
+    public void moneyTopCommand(Context<CommandSender> context) {
+        val rankingStorage = plugin.getRankingStorage();
+        val sender = context.getSender();
+
+        rankingStorage.updateRanking(false);
+
+        val header = MessageValue.get(MessageValue::chatModelHeader);
+        val body = plugin.getRankingChatBody();
+        val footer = MessageValue.get(MessageValue::chatModelFooter);
+
+        header.forEach(sender::sendMessage);
+        sender.sendMessage(body.getLines());
+        footer.forEach(sender::sendMessage);
+    }
+
+    @Command(
+            name = "afelium.shop",
+            target = CommandTarget.PLAYER,
+            async = true
+    )
+    public void moneyBuyCommand(Context<Player> context) {
+        buyAfeliumView.openInventory(context.getSender());
+    }
+
+    @Command(
+            name = "afelium.help",
+            description = "Afelium system help message.",
             async = true
     )
     public void moneyHelpCommand(Context<CommandSender> context) {

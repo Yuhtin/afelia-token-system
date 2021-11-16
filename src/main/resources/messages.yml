@@ -1,32 +1,56 @@
 invalidPlayer: '&cInvalid player.'
 invalidQuantity: '&cThe quantity is invalid.'
-see: '&6&lAFELIA &fYou have &e$amount&f afelia.'
-see-other: '&6&lAFELIA &fThe player &e$player&f have&e $amount&f afelia.'
-set: '&6&lAFELIA &fYou setted &e$amount &fto &e$player.'
-add: '&6&lAFELIA &fYou added &e$amount &fto &e$player.'
-take: '&6&lAFELIA &fYou taked &e$amount &ffrom &e$player.'
+incorrectUsage: '&cWrong use! Correct: {usage}'
+error: '&cOPS! A error ocurred, sorry!'
+noPermission: "&cYou don't have permission to do this."
+noMoney: "&cYou don't have money to do this."
+noAfelium: "&cYou don't have afelium to do this."
+yourself: '&cYou cannot make a transaction for yourself.'
+
+bought: '&6&LAFELIUM &fYou bought &e1 afelium &ffor &e$amount coins.'
+sold: '&6&LAFELIUM &fYou sold &e1 afelium &ffor &e$amount coins.'
+see: '&6&lAFELIUM &fYou have &e$amount&f afelium.'
+see-other: '&6&lAFELIUM &fThe player &e$player&f have&e $amount&f afelium.'
+set: '&6&lAFELIUM &fYou setted &e$amount afelium &fto &e$player.'
+add: '&6&lAFELIUM &fYou added &e$amount afelium &fto &e$player.'
+take: '&6&lAFELIUM &fYou taked &e$amount afelium &ffrom &e$player.'
+sent: '&6&lAFELIUM &fYou sent &e$amount afelium &fto &e$player.'
+received: '&6&lAFELIUM &fYou received &e$amount afelium &ffrom &e$player.'
+
+inventoryName: '&8Buy and sell afelium'
+
+ranking:
+  tycoonTag: '&6[☆] '
+  header:
+    - ''
+    - ' &6&lAFELIUM TOP &8&l➡ &fSee the richest players'
+    - ''
+  body: ' &f$positionº &8- $tycoon&a$player &7(&e$amount&7)'
+  footer:
+    - ''
 
 help-command:
   - ''
   - '&a&lAfelia &8&l➡&f Help'
   - ''
-  - '&a/afelia see (player) &8- &7See afelia.'
-  - '&a/afelia send (player) (quantity) &8- &7Send afelia to player.'
-  - '&a/afelia top &8- &7Top players with afelia.'
-  - '&a/afelia help &8- &7See this message.'
+  - '&a/afelium see (player) &8- &7See afelium.'
+  - '&a/afelium send (player) (quantity) &8- &7Send afelium to player.'
+  - '&a/afelium shop &8- &7Buy and sell afelium here.'
+  - '&a/afelium top &8- &7Top players with afelium.'
+  - '&a/afelium help &8- &7See this message.'
   - ''
 
 help-command-staff:
   - ''
   - '&a&lAfelia &8&l➡&f Help'
   - ''
-  - '&a/afelia see [player] &8- &7See afelia.' #
-  - '&a/afelia send (player) (quantity) &8- &7Send afelia to player.' #
-  - '&a/afelia top &8- &7Top players with afelia.'
-  - '&a/afelia help &8- &7See this message.' #
-  - '&a/afelia add (jogador) (quantia)&8 -&7 Add afelia to player.'
-  - '&a/afelia take (jogador) (quantia)&8 -&7 Remove afelia from player.'
-  - '&a/afelia set (jogador)&8 -&7 Set afelia for player.'
+  - '&a/afelium see [player] &8- &7See afelium.'
+  - '&a/afelium send (player) (quantity) &8- &7Send afelium to player.'
+  - '&a/afelium top &8- &7Top players with afelium.'
+  - '&a/afelium help &8- &7See this message.'
+  - '&a/afelium add (player) (quantity) &8- &7Add afelium to player.'
+  - '&a/afelium take (player) (quantity) &8- &7Remove afelium from player.'
+  - '&a/afelium set (player) &8- &7Set afelium for player.'
   - ''
 
 # Options of number formatters: 'DECIMAL' e 'LETTER'

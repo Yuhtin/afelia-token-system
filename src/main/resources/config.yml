@@ -7,3 +7,9 @@ database:
     database: 'test'
   sqlite:
     file: 'database/database.db'
+
+afelium:
+  # Price in coins to buy 1 afelium
+  buy: 10000
+  # Coins received per afelium selled
+  sell: 5000

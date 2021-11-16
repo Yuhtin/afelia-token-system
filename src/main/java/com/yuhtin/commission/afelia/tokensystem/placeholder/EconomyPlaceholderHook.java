@@ -1,6 +1,7 @@
 package com.yuhtin.commission.afelia.tokensystem.placeholder;
 
 import com.yuhtin.commission.afelia.tokensystem.AfeliaTokenSystem;
+import com.yuhtin.commission.afelia.tokensystem.configuration.MessageValue;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -14,7 +15,7 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return plugin.getName();
+        return "afelia";
     }
 
     @Override
@@ -36,7 +37,9 @@ public final class EconomyPlaceholderHook extends PlaceholderExpansion {
 
         if (params.equalsIgnoreCase("tycoon")) {
             val rankingStorage = plugin.getRankingStorage();
-            return rankingStorage.getTopPlayer();
+            if (!rankingStorage.getTopPlayer().equals(player.getName())) return "";
+
+            return MessageValue.get(MessageValue::tycoonTagValue);
         }
 
         return "Invalid param";
