@@ -25,7 +25,7 @@ ranking:
     - ''
     - ' &6&lAFELIUM TOP &8&l➡ &fSee the richest players'
     - ''
-  body: ' &f$positionº &8- $tycoon&a$player &7(&e$amount&7)'
+  body: ' &f$positionº &8- $tycoon&a$player &7(&e$amount afelium&7)'
   footer:
     - ''
 
