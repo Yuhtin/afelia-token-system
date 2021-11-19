@@ -38,13 +38,13 @@ public class RankingListener implements Listener {
             val bodyLines = new LinkedList<String>();
             int position = 1;
             for (Account account : accounts) {
-                if (position == 1) rankingStorage.setTopPlayer(account.getLastName());
+                if (position == 1) rankingStorage.setTopPlayer(account.getUsername());
                 rankingStorage.getTop().add(account);
 
                 val body = MessageValue.get(MessageValue::rankingBody);
                 bodyLines.add(body
                         .replace("$position", String.valueOf(position))
-                        .replace("$player", account.getLastName())
+                        .replace("$player", account.getUsername())
                         .replace("$tycoon", position == 1 ? tycoonTag : "")
                         .replace("$amount", account.getBalanceFormated()));
                 position++;

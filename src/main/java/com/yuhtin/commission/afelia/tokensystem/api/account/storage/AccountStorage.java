@@ -13,14 +13,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
 public class AccountStorage {
 
     private final AccountRepository accountRepository;
-    private final Map<UUID, Account> cache = new HashMap<>();
+    private final Map<String, Account> cache = new HashMap<>();
 
     public void init(Plugin plugin) {
         accountRepository.createTable();
@@ -28,11 +27,11 @@ public class AccountStorage {
     }
 
     @Nullable
-    public Account findAccountByUUID(@NotNull UUID uuid) {
-        if (cache.containsKey(uuid)) return cache.get(uuid);
+    public Account findAccountByName(@NotNull String name) {
+        if (cache.containsKey(name)) return cache.get(name);
 
-        val account = accountRepository.selectOne(uuid);
-        if (account != null) cache.put(uuid, account);
+        val account = accountRepository.selectOne(name);
+        if (account != null) cache.put(name, account);
 
         return account;
     }
@@ -44,18 +43,17 @@ public class AccountStorage {
             if (player != null) return findAccount(player);
         }
 
-        return findAccountByUUID(offlinePlayer.getUniqueId());
+        return findAccountByName(offlinePlayer.getName());
     }
 
     @NotNull
     public Account findAccount(@NotNull Player player) {
-        Account account = findAccountByUUID(player.getUniqueId());
+        Account account = findAccountByName(player.getName());
         if (account == null) {
-            account = new Account(player.getUniqueId());
-            cache.put(player.getUniqueId(), account);
+            account = new Account(player.getName());
+            cache.put(player.getName(), account);
         }
 
-        if (account.getLastName() == null) account.setLastName(player.getName());
         return account;
     }
 

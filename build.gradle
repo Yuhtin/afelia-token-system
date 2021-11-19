@@ -38,6 +38,7 @@ bukkit {
     authors = ['Yuhtin']
     version = "${project.version}"
     depend = ['Vault']
+    softDepend = ['PlaceholderAPI']
     apiVersion = '1.13'
 }
 

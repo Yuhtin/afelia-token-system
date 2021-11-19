@@ -18,16 +18,10 @@ public final class AccountRepository {
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
-                "uuid CHAR(36) NOT NULL PRIMARY KEY," +
-                "balance DOUBLE NOT NULL DEFAULT 0," +
-                "lastName CHAR(20) NOT NULL" +
+                "username CHAR(20) NOT NULL PRIMARY KEY," +
+                "balance DOUBLE NOT NULL DEFAULT 0" +
                 ");"
         );
-    }
-
-    public void recreateTable() {
-        sqlExecutor.updateQuery("DELETE FROM " + TABLE);
-        createTable();
     }
 
     private Account selectOneQuery(String query) {
@@ -40,8 +34,8 @@ public final class AccountRepository {
     }
 
     @Nullable
-    public Account selectOne(UUID uuid) {
-        return selectOneQuery("WHERE uuid = '" + uuid.toString() + "'");
+    public Account selectOne(String name) {
+        return selectOneQuery("WHERE username = '" + name + "'");
     }
 
     public Set<Account> selectAll(String query) {
@@ -55,11 +49,10 @@ public final class AccountRepository {
 
     public void saveOne(Account account) {
         this.sqlExecutor.updateQuery(
-                String.format("REPLACE INTO %s VALUES(?,?,?)", TABLE),
+                String.format("REPLACE INTO %s VALUES(?,?)", TABLE),
                 statement -> {
-                    statement.set(1, account.getUuid().toString());
+                    statement.set(1, account.getUsername());
                     statement.set(2, account.getBalance());
-                    statement.set(3, account.getLastName());
                 }
         );
     }

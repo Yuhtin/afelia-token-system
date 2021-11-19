@@ -5,7 +5,6 @@ import com.yuhtin.commission.afelia.tokensystem.command.AfeliaCommand;
 import com.yuhtin.commission.afelia.tokensystem.configuration.MessageValue;
 import com.yuhtin.commission.afelia.tokensystem.view.BuyAfeliumView;
 import lombok.Data;
-import lombok.val;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import me.saiintbrisson.minecraft.command.message.MessageHolder;
 import me.saiintbrisson.minecraft.command.message.MessageType;
@@ -17,8 +16,7 @@ public final class CommandRegistry {
 
     public void register() {
         try {
-            val afeliumView = new BuyAfeliumView(plugin.getEconomyHook(), plugin.getAccountStorage());;
-            afeliumView.init();
+            BuyAfeliumView afeliumView = new BuyAfeliumView(plugin.getEconomyHook(), plugin.getAccountStorage()).init();
 
             BukkitFrame bukkitFrame = new BukkitFrame(plugin);
             bukkitFrame.registerCommands(new AfeliaCommand(plugin, plugin.getAccountStorage(), afeliumView));

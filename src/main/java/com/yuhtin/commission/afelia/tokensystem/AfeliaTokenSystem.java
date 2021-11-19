@@ -58,8 +58,10 @@ public class AfeliaTokenSystem extends JavaPlugin {
 
         rankingStorage = new RankingStorage();
         rankingChatBody = new RankingChatBody();
+        economyHook = new EconomyHook();
 
         accountStorage.init(this);
+        economyHook.init();
 
         InventoryManager.enable(this);
         ConfigurationRegistry.of(this).register();
