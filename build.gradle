@@ -44,6 +44,15 @@ bukkit {
 
 shadowJar {
     archiveName("${project.name}-${project.version}.jar")
+
+    relocate 'com.henryfabio.minecraft.configinjector', 'com.yuhtin.commission.afelia.tokensystem.libs.configinjector'
+    relocate 'com.henryfabio.minecraft.inventoryapi', 'com.yuhtin.commission.afelia.tokensystem.libs.inventoryapi'
+
+    relocate 'com.henryfabio.sqlprovider', 'com.yuhtin.commission.afelia.tokensystem.libs.sqlprovider'
+    relocate 'com.zaxxer.hikari', 'com.yuhtin.commission.afelia.tokensystem.libs.hikari'
+
+    relocate 'me.saiintbrisson.minecraft.command', 'com.yuhtin.commission.afelia.tokensystem.libs.command.common'
+    relocate 'me.saiintbrisson.bukkit.command', 'com.yuhtin.commission.afelia.tokensystem.libs.command.bukkit'
 }
 
 compileJava {
